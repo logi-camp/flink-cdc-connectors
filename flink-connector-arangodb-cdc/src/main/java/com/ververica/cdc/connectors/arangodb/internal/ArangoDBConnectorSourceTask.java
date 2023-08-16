@@ -16,6 +16,7 @@
 
 package com.ververica.cdc.connectors.arangodb.internal;
 
+import com.arangodb.ArangoDB;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoNamespace;
 import com.mongodb.client.MongoClient;
@@ -284,14 +285,15 @@ public class ArangoDBConnectorSourceTask extends SourceTask {
             // Watching collections changes
             List<String> discoveredDatabases;
             List<String> discoveredCollections;
-            try (MongoClient mongoClient = MongoClients.create(connectionString)) {
-                discoveredDatabases = databaseNames(mongoClient, databaseFilter(databaseList));
-                discoveredCollections =
-                        collectionNames(
-                                mongoClient,
-                                discoveredDatabases,
-                                collectionsFilter(collectionList));
-            }
+            //TODO fix hostname and connection string
+            ArangoDB arangoClient = new ArangoDB.Builder().build();
+            discoveredDatabases = databaseNames(arangoClient, databaseFilter(databaseList));
+            discoveredCollections =
+                    collectionNames(
+                            arangoClient,
+                            discoveredDatabases,
+                            collectionsFilter(collectionList));
+
 
             // case: database = db0, collection = coll1
             if (isIncludeListExplicitlySpecified(collectionList, discoveredCollections)) {
@@ -336,9 +338,10 @@ public class ArangoDBConnectorSourceTask extends SourceTask {
         } else if (databaseList != null) {
             // Watching databases changes
             List<String> discoveredDatabases;
-            try (MongoClient mongoClient = MongoClients.create(connectionString)) {
-                discoveredDatabases = databaseNames(mongoClient, databaseFilter(databaseList));
-            }
+            //TODO apply arangoConfig
+            ArangoDB mongoClient = new ArangoDB.Builder().build();
+            discoveredDatabases = databaseNames(mongoClient, databaseFilter(databaseList));
+
 
             if (isIncludeListExplicitlySpecified(databaseList, discoveredDatabases)) {
                 props.put(MongoSourceConfig.DATABASE_CONFIG, discoveredDatabases.get(0));

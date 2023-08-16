@@ -214,7 +214,7 @@ public class MongoDBParallelSourceITCase extends ArangoDBSourceTestBase {
         // second step: check the change stream data
         for (String collectionName : captureCustomerCollections) {
             makeFirstPartChangeStreamEvents(
-                    mongodbClient.getDatabase(customerDatabase), collectionName);
+                    arangoDBClient.getDatabase(customerDatabase), collectionName);
         }
         if (failoverPhase == FailoverPhase.STREAM) {
             triggerFailover(
@@ -222,7 +222,7 @@ public class MongoDBParallelSourceITCase extends ArangoDBSourceTestBase {
         }
         for (String collectionName : captureCustomerCollections) {
             makeSecondPartChangeStreamEvents(
-                    mongodbClient.getDatabase(customerDatabase), collectionName);
+                    arangoDBClient.getDatabase(customerDatabase), collectionName);
         }
 
         String[] changeEventsForSingleTable =

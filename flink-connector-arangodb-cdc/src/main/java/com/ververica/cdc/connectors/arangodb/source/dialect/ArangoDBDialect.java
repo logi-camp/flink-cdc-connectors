@@ -16,9 +16,10 @@
 
 package com.ververica.cdc.connectors.arangodb.source.dialect;
 
+import com.arangodb.ArangoDB;
+import com.mongodb.client.MongoClient;
 import org.apache.flink.annotation.Experimental;
 
-import com.mongodb.client.MongoClient;
 import com.ververica.cdc.connectors.base.dialect.DataSourceDialect;
 import com.ververica.cdc.connectors.base.source.assigner.splitter.ChunkSplitter;
 import com.ververica.cdc.connectors.base.source.meta.split.SourceSplitBase;
@@ -67,7 +68,7 @@ public class ArangoDBDialect implements DataSourceDialect<ArangoDBSourceConfig> 
 
     @Override
     public String getName() {
-        return "MongoDB";
+        return "ArangoDB";
     }
 
     @Override
@@ -94,13 +95,13 @@ public class ArangoDBDialect implements DataSourceDialect<ArangoDBSourceConfig> 
         return cache.computeIfAbsent(
                 sourceConfig,
                 config -> {
-                    MongoClient mongoClient = clientFor(sourceConfig);
+                    ArangoDB arangoClient = new ArangoDB.Builder().build();
                     List<String> discoveredDatabases =
                             databaseNames(
-                                    mongoClient, databaseFilter(sourceConfig.getDatabaseList()));
+                                    arangoClient, databaseFilter(sourceConfig.getDatabaseList()));
                     List<String> discoveredCollections =
                             collectionNames(
-                                    mongoClient,
+                                    arangoClient,
                                     discoveredDatabases,
                                     collectionsFilter(sourceConfig.getCollectionList()));
                     return new CollectionDiscoveryInfo(discoveredDatabases, discoveredCollections);

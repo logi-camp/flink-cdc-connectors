@@ -16,8 +16,9 @@
 
 package com.ververica.cdc.connectors.arangodb.source.utils;
 
+import com.arangodb.ArangoDB;
+import com.arangodb.ArangoDatabase;
 import com.mongodb.MongoNamespace;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -53,10 +54,10 @@ public class CollectionDiscoveryUtils {
     private CollectionDiscoveryUtils() {}
 
     public static List<String> databaseNames(
-            MongoClient mongoClient, Predicate<String> databaseFilter) {
+            ArangoDB arangoClient, Predicate<String> databaseFilter) {
         List<String> databaseNames = new ArrayList<>();
-        mongoClient
-                .listDatabaseNames()
+        arangoClient
+                .getDatabases()
                 .forEach(
                         dbName -> {
                             if (databaseFilter.test(dbName)) {
@@ -67,22 +68,22 @@ public class CollectionDiscoveryUtils {
     }
 
     public static List<String> collectionNames(
-            MongoClient mongoClient,
+            ArangoDB arangoClient,
             List<String> databaseNames,
             Predicate<String> collectionFilter) {
-        return collectionNames(mongoClient, databaseNames, collectionFilter, String::toString);
+        return collectionNames(arangoClient, databaseNames, collectionFilter, String::toString);
     }
 
     public static <T> List<T> collectionNames(
-            MongoClient mongoClient,
+            ArangoDB arangoClient,
             List<String> databaseNames,
             Predicate<String> collectionFilter,
             Function<String, T> conversion) {
         List<T> collectionNames = new ArrayList<>();
         for (String dbName : databaseNames) {
-            MongoDatabase db = mongoClient.getDatabase(dbName);
-            db.listCollectionNames()
-                    .map(collName -> dbName + "." + collName)
+            ArangoDatabase db = arangoClient.db(dbName);
+            db.getCollections().stream()
+                    .map(collName -> dbName + "." + collName.getName())
                     .forEach(
                             fullName -> {
                                 if (collectionFilter.test(fullName)) {

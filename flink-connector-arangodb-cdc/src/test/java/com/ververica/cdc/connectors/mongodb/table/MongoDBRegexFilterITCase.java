@@ -314,7 +314,7 @@ public class MongoDBRegexFilterITCase extends ArangoDBSourceTestBase {
     }
 
     private void insertRecordsInDatabase(String database) {
-        MongoDatabase db = mongodbClient.getDatabase(database);
+        MongoDatabase db = arangoDBClient.getDatabase(database);
         db.getCollection("coll_a1").insertOne(new Document("seq", "A102"));
         db.getCollection("coll_a2").insertOne(new Document("seq", "A202"));
         db.getCollection("coll_b1").insertOne(new Document("seq", "B102"));

@@ -102,17 +102,17 @@ public class MongoDBStreamSplitReaderTest extends ArangoDBSourceTestBase {
         changeStreamOffsetFactory = new ChangeStreamOffsetFactory();
 
         List<String> discoveredDatabases =
-                databaseNames(mongodbClient, databaseFilter(sourceConfig.getDatabaseList()));
+                databaseNames(arangoDBClient, databaseFilter(sourceConfig.getDatabaseList()));
         List<String> discoveredCollections =
                 collectionNames(
-                        mongodbClient,
+                        arangoDBClient,
                         discoveredDatabases,
                         collectionsFilter(sourceConfig.getCollectionList()));
 
         changeStreamDescriptor =
                 getChangeStreamDescriptor(sourceConfig, discoveredDatabases, discoveredCollections);
 
-        startupResumeToken = getLatestResumeToken(mongodbClient, changeStreamDescriptor);
+        startupResumeToken = getLatestResumeToken(arangoDBClient, changeStreamDescriptor);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class MongoDBStreamSplitReaderTest extends ArangoDBSourceTestBase {
             streamSplitReader.handleSplitsChanges(new SplitsAddition<>(singletonList(streamSplit)));
 
             MongoCollection<Document> collection =
-                    mongodbClient.getDatabase(database).getCollection("shopping_cart");
+                    arangoDBClient.getDatabase(database).getCollection("shopping_cart");
 
             long now = System.currentTimeMillis();
             List<Document> inserts =

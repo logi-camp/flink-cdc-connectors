@@ -137,7 +137,7 @@ public class MongoDBConnectorITCase extends ArangoDBSourceTestBase {
         waitForSnapshotStarted("sink");
 
         MongoCollection<Document> products =
-                mongodbClient.getDatabase(database).getCollection("products");
+                arangoDBClient.getDatabase(database).getCollection("products");
 
         products.updateOne(
                 Filters.eq("_id", new ObjectId("100000000000000000000106")),
@@ -277,7 +277,7 @@ public class MongoDBConnectorITCase extends ArangoDBSourceTestBase {
                         "INSERT INTO sink SELECT name, SUM(weight) FROM mongodb_source GROUP BY name");
 
         MongoCollection<Document> products =
-                mongodbClient.getDatabase(database).getCollection("products");
+                arangoDBClient.getDatabase(database).getCollection("products");
 
         products.insertOne(
                 productDocOf(
@@ -425,7 +425,7 @@ public class MongoDBConnectorITCase extends ArangoDBSourceTestBase {
         waitForSnapshotStarted("sink");
 
         MongoCollection<Document> fullTypes =
-                mongodbClient.getDatabase(database).getCollection("full_types");
+                arangoDBClient.getDatabase(database).getCollection("full_types");
 
         fullTypes.updateOne(
                 Filters.eq("_id", new ObjectId("5d505646cf6d4fe581014ab2")),
@@ -516,7 +516,7 @@ public class MongoDBConnectorITCase extends ArangoDBSourceTestBase {
         waitForSinkSize("meta_sink", 9);
 
         MongoCollection<Document> products =
-                mongodbClient.getDatabase(database).getCollection("products");
+                arangoDBClient.getDatabase(database).getCollection("products");
 
         products.updateOne(
                 Filters.eq("_id", new ObjectId("100000000000000000000106")),

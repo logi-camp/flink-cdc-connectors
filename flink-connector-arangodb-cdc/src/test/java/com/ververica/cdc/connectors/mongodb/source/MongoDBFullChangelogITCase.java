@@ -302,7 +302,7 @@ public class MongoDBFullChangelogITCase extends ArangoDBSourceTestBase {
         // second step: check the change stream data
         for (String collectionName : captureCustomerCollections) {
             makeFirstPartChangeStreamEvents(
-                    mongodbClient.getDatabase(customerDatabase), collectionName);
+                    arangoDBClient.getDatabase(customerDatabase), collectionName);
         }
         if (failoverPhase == MongoDBTestUtils.FailoverPhase.STREAM) {
             triggerFailover(
@@ -310,7 +310,7 @@ public class MongoDBFullChangelogITCase extends ArangoDBSourceTestBase {
         }
         for (String collectionName : captureCustomerCollections) {
             makeSecondPartChangeStreamEvents(
-                    mongodbClient.getDatabase(customerDatabase), collectionName);
+                    arangoDBClient.getDatabase(customerDatabase), collectionName);
         }
 
         String[] changeEventsForSingleTable =

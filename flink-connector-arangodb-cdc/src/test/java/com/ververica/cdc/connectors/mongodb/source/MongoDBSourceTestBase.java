@@ -16,6 +16,7 @@
 
 package com.ververica.cdc.connectors.arangodb.source;
 
+import com.arangodb.ArangoDB;
 import org.apache.flink.runtime.minicluster.RpcServiceSharing;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.test.util.MiniClusterWithClientResource;
@@ -38,7 +39,7 @@ import java.util.stream.Stream;
 /** ArangoDBSourceTestBase for MongoDB >= 5.0.3. */
 public class ArangoDBSourceTestBase {
 
-    protected static MongoClient mongodbClient;
+    protected static ArangoDB arangoDBClient;
 
     protected static final int DEFAULT_PARALLELISM = 4;
 
@@ -62,7 +63,7 @@ public class ArangoDBSourceTestBase {
                         .applyConnectionString(
                                 new ConnectionString(CONTAINER.getConnectionString()))
                         .build();
-        mongodbClient = MongoClients.create(settings);
+        arangoDBClient = MongoClients.create(settings);
 
         LOG.info("Containers are started.");
     }
