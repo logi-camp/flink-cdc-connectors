@@ -252,68 +252,6 @@ under the License.
                 </configuration>
             </plugin>
 
-            <!-- Due to the Flink build setup, "mvn spotless:apply" and "mvn spotless:check"
-				don't work. You have to use the fully qualified name, i.e.
-				"mvn com.diffplug.spotless:spotless-maven-plugin:apply" -->
-            <plugin>
-                <groupId>com.diffplug.spotless</groupId>
-                <artifactId>spotless-maven-plugin</artifactId>
-                <version>${spotless.version}</version>
-                <configuration>
-                    <java>
-                        <googleJavaFormat>
-                            <version>1.7</version>
-                            <style>AOSP</style>
-                        </googleJavaFormat>
-
-                        <!-- \# refers to the static imports -->
-                        <importOrder>
-                            <order>org.apache.flink,org.apache.flink.shaded,,javax,java,scala,\#
-                            </order>
-                        </importOrder>
-
-                        <removeUnusedImports/>
-                    </java>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>spotless-check</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>8.14</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <suppressionsLocation>/tools/maven/suppressions.xml</suppressionsLocation>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <configLocation>/tools/maven/checkstyle.xml</configLocation>
-                    <logViolationsToConsole>true</logViolationsToConsole>
-                    <failOnViolation>true</failOnViolation>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -467,6 +405,7 @@ under the License.
                 <module>flink-connector-postgres-cdc</module>
                 <module>flink-connector-oracle-cdc</module>
                 <module>flink-connector-mongodb-cdc</module>
+                <module>flink-connector-arangodb-cdc</module>
                 <module>flink-connector-oceanbase-cdc</module>
                 <module>flink-connector-sqlserver-cdc</module>
                 <module>flink-connector-tidb-cdc</module>
@@ -481,7 +420,6 @@ under the License.
                 <module>flink-sql-connector-tidb-cdc</module>
                 <module>flink-sql-connector-db2-cdc</module>
                 <module>flink-sql-connector-vitess-cdc</module>
-                <module>flink-cdc-e2e-tests</module>
             </modules>
         </profile>
         <profile>
@@ -494,6 +432,7 @@ under the License.
                 <module>flink-connector-postgres-cdc</module>
                 <module>flink-connector-oracle-cdc</module>
                 <module>flink-connector-mongodb-cdc</module>
+                <module>flink-connector-arangodb-cdc</module>
                 <module>flink-connector-oceanbase-cdc</module>
                 <module>flink-connector-sqlserver-cdc</module>
                 <module>flink-connector-tidb-cdc</module>
@@ -508,7 +447,6 @@ under the License.
                 <module>flink-sql-connector-tidb-cdc</module>
                 <module>flink-sql-connector-db2-cdc</module>
                 <module>flink-sql-connector-vitess-cdc</module>
-                <module>flink-cdc-e2e-tests</module>
             </modules>
             <build>
                 <plugins>
