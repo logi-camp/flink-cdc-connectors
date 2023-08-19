@@ -50,7 +50,7 @@ under the License.
     </distributionManagement>
 
     <properties>
-        <flink.version>1.17.0</flink.version>
+        <flink.version>1.17.1</flink.version>
         <debezium.version>1.9.7.Final</debezium.version>
         <tikv.version>3.2.0</tikv.version>
         <geometry.version>2.2.0</geometry.version>
@@ -401,25 +401,10 @@ under the License.
                 <module>flink-cdc-base</module>
                 <module>flink-connector-debezium</module>
                 <module>flink-connector-test-util</module>
-                <module>flink-connector-mysql-cdc</module>
-                <module>flink-connector-postgres-cdc</module>
-                <module>flink-connector-oracle-cdc</module>
+            
                 <module>flink-connector-mongodb-cdc</module>
                 <module>flink-connector-arangodb-cdc</module>
-                <module>flink-connector-oceanbase-cdc</module>
-                <module>flink-connector-sqlserver-cdc</module>
-                <module>flink-connector-tidb-cdc</module>
-                <module>flink-connector-db2-cdc</module>
-                <module>flink-connector-vitess-cdc</module>
-                <module>flink-sql-connector-mysql-cdc</module>
-                <module>flink-sql-connector-postgres-cdc</module>
                 <module>flink-sql-connector-mongodb-cdc</module>
-                <module>flink-sql-connector-oracle-cdc</module>
-                <module>flink-sql-connector-oceanbase-cdc</module>
-                <module>flink-sql-connector-sqlserver-cdc</module>
-                <module>flink-sql-connector-tidb-cdc</module>
-                <module>flink-sql-connector-db2-cdc</module>
-                <module>flink-sql-connector-vitess-cdc</module>
             </modules>
         </profile>
         <profile>
